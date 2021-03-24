@@ -11,6 +11,12 @@ Todo:
 
 ## Usage
 
+```yaml
+dependencies:
+  vlc_flutter: ^0.0.1
+```
+
+
 ```dart
 import 'package:vlc_flutter/vlcplayer.dart';
 ```
