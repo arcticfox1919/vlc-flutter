@@ -114,7 +114,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Stream<VLCEvent> get onEvent => _eventStreamController.stream;
 
   ///
-  ///  Event Type
+  /// Event Type
   /// see:https://www.videolan.org/developers/vlc/doc/doxygen/html/group__libvlc__event.html#ga284c010ecde8abca7d3f262392f62fc6
   ///
   _eventHandler(event) {
@@ -168,6 +168,9 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
     return _vlcApi.setDefaultBufferSize(size);
   }
 
+  ///
+  /// Release resources
+  ///
   @override
   void dispose() async {
     _isNeedDisposed = true;
@@ -186,6 +189,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   /// Setting the data source
   ///
   /// [uri] and [path]
+  ///
   /// see [play] method
   ///
   Future<void> setDataSource({String uri,String path}) async {
@@ -218,7 +222,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Set the video scale type, by default, scaletype is set to ScaleType.SURFACE_BEST_FIT
-  /// @param {@link ScaleType} to rule the video surface filling
+  ///  [ScaleType] to rule the video surface filling
   ///
   void setVideoScale(ScaleType type) async {
     await _ensureInitialized();
@@ -230,7 +234,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Get the current video scale type
-  /// @return the current {@link ScaleType} used by MediaPlayer
+  /// return the current [ScaleType] used by MediaPlayer
   ///
   Future<ScaleType> getVideoScale() async {
     await _ensureInitialized();
@@ -251,10 +255,10 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// Get the current video scaling factor
   ///
-  /// @return the currently configured zoom factor, or 0. if the video is set to fit to the
+  /// return the currently configured zoom factor, or 0. if the video is set to fit to the
   /// output window/drawable automatically.
   ///
-  Future<double> getScale(TextureParam param)async{
+  Future<double> getScale()async{
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
     DoubleParam dp = await _vlcApi.getScale(TextureParam()..textureId=_textureId);
@@ -268,7 +272,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   /// decoded video in each dimension. Zero is a special value; it will adjust the video to the
   /// output window/drawable (in windowed mode) or the entire screen.
   ///
-  /// @param scale the scaling factor, or zero
+  /// [scale] the scaling factor, or zero
   ///
   void setScale(double scale) async {
     await _ensureInitialized();
@@ -281,9 +285,9 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// Get current video aspect ratio
   ///
-  /// @return the video aspect ratio or NULL if unspecified
+  /// return the video aspect ratio or NULL if unspecified
   ///
-  Future<String> getAspectRatio(TextureParam param) async {
+  Future<String> getAspectRatio() async {
     await _ensureInitialized();
     if(_isNeedDisposed) return null;
     StringParam sp =
@@ -294,7 +298,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// Set new video aspect ratio.
   ///
-  /// @param aspect new video aspect-ratio or NULL to reset to default
+  /// [aspect] new video aspect-ratio or NULL to reset to default
   ///
   void setAspectRatio(String aspect)async{
     await _ensureInitialized();
@@ -307,7 +311,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// Sets the speed of playback (1 being normal speed, 2 being twice as fast)
   ///
-  /// @param rate
+  /// [rate]
   ///
   void setRate(double rate)async{
     await _ensureInitialized();
@@ -384,7 +388,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Sets volume as integer
-  /// @param volume: Volume level passed as integer
+  /// [volume] Volume level passed as integer
   ///
   Future<int> setVolume(int volume) async {
     await _ensureInitialized();
@@ -397,7 +401,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Gets the current movie time (in ms).
-  /// @return the movie time (in ms), or -1 if there is no media.
+  /// return the movie time (in ms), or -1 if there is no media.
   ///
   Future<int> getTime() async {
     await _ensureInitialized();
@@ -409,8 +413,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Sets the movie time (in ms), if any media is being played.
-  /// @param time: Time in ms.
-  /// @return the movie time (in ms), or -1 if there is no media.
+  /// [time] Time in ms.
+  /// return the movie time (in ms), or -1 if there is no media.
   ///
   Future<int> setTime(int time)async{
     await _ensureInitialized();
@@ -423,7 +427,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Gets the movie position.
-  /// @return the movie position, or -1 for any error.
+  /// return the movie position, or -1 for any error.
   ///
   Future<double> getPosition()async{
     await _ensureInitialized();
@@ -435,7 +439,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Sets the movie position.
-  /// @param pos: movie position.
+  ///
+  /// [pos]  movie position.
   ///
   void setPosition(double pos)async{
     await _ensureInitialized();
@@ -447,7 +452,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   ///
   /// Gets current movie's length in ms.
-  /// @return the movie length (in ms), or -1 if there is no media.
+  ///
+  /// return the movie length (in ms), or -1 if there is no media.
   ///
   Future<int> getLength()async{
     await _ensureInitialized();
@@ -460,11 +466,11 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// Add a slave (or subtitle) to the current media player.
   ///
-  /// @param [type] Subtitle = 0,Audio = 1
-  /// @param [uri] Uri of the slave(a valid RFC 2396 Uri)
-  /// @param [path] a local path
-  /// @param [select] True if this slave should be selected when it's loaded
-  /// @return true on success.
+  /// [type] Subtitle = 0,Audio = 1
+  /// [uri] Uri of the slave(a valid RFC 2396 Uri)
+  /// [path] a local path
+  /// [select] True if this slave should be selected when it's loaded
+  /// return true on success.
   ///
   Future<bool> addSlave({int type=0, String uri,String path, bool select=true}) async {
     assert(uri != null || path !=null);
@@ -482,8 +488,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// Set if, and how, the video title will be shown when media is played
   ///
-  /// @param [position] see [Position]
-  /// @param [timeout] title display timeout in milliseconds
+  /// [position] see [Position]
+  /// [timeout] title display timeout in milliseconds
   ///
   void setVideoTitleDisplay(int position, int timeout) async {
     await _ensureInitialized();
@@ -497,9 +503,9 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// Start/stop recording
   ///
-  /// @param directory path of the recording directory or null to stop
+  /// [directory] path of the recording directory or null to stop
   /// recording
-  /// @return true on success.
+  /// return true on success.
   ///
   Future<bool> _record(String directory) async {
     await _ensureInitialized();

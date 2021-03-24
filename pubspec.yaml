@@ -2,7 +2,7 @@ name: vlc_flutter
 description: This is a Flutter wrapper plugin for libvlc.
 version: 0.0.1
 author:
-homepage:
+homepage: https://github.com/arcticfox1919/vlc-flutter
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
