@@ -4,7 +4,7 @@ version: 0.0.1
 homepage: https://github.com/arcticfox1919/vlc-flutter
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.20.0"
 
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  pigeon: ^0.1.23
+  pigeon: ^1.0.13
   flutter_test:
     sdk: flutter
 

@@ -17,19 +17,29 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
     _controller.onEvent.listen((event) {
-      debugPrint("==[$event==");
-      if(event.type == EventType.PositionChanged){
-        debugPrint("==[${event.positionChanged}]==");
+      if(event.type == EventType.TimeChanged){
+        debugPrint("==[${event.timeChanged}]==");
       }
     });
+
+    _controller.onPlayerState.listen((state) {
+      debugPrint("--[$state]--");
+    });
+
+    load();
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  load()async{
+    // rtmp://58.200.131.2:1935/livetv/natlgeo
+    await _controller.setDataSource(
+        uri: "https://v-cdn.zjol.com.cn/276996.mp4");
   }
 
   @override
@@ -51,30 +61,28 @@ class _MyAppState extends State<MyApp> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
+                TextButton(
                     child: Text("play"),
                     onPressed: () async {
-                      await _controller.setDataSource(
-                          uri: "rtmp://58.200.131.2:1935/livetv/natlgeo");
                       _controller.play();
                     }),
-                ElevatedButton(
+                TextButton(
                     child: Text("pause"),
                     onPressed: () {
                       _controller.pause();
                     }),
-                ElevatedButton(
+                TextButton(
                     child: Text("stop"),
                     onPressed: () {
                       _controller.stop();
                     }),
-                ElevatedButton(
+                TextButton(
                     child: Text("startRecord"),
                     onPressed: () {
                       _controller.startRecord("/sdcard/test/");
                     }),
 
-                ElevatedButton(
+                TextButton(
                     child: Text("stopRecord"),
                     onPressed: () {
                       _controller.stopRecord();

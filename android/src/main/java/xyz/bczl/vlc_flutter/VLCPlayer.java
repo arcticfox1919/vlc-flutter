@@ -11,6 +11,7 @@ import org.videolan.libvlc.MediaPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.flutter.plugin.common.EventChannel;
@@ -23,14 +24,14 @@ public class VLCPlayer implements MediaPlayer.EventListener{
     private final Context mCtx;
     private final TextureRegistry.SurfaceTextureEntry mTextureEntry;
     private final EventChannel mChannel;
-    private final VLCPlayerAPI.VLCPlayerOptions mOptions;
+    private final List<String>  mOptions;
     private MediaPlayer mMediaPlayer;
     private LibVLC mLibVLC;
 
     public VLCPlayer(Context ctx,
                      EventChannel channel,
                      TextureRegistry.SurfaceTextureEntry textureEntry,
-                     VLCPlayerAPI.VLCPlayerOptions options){
+                     List<String> options){
         mCtx = ctx;
         mChannel = channel;
         mTextureEntry = textureEntry;
@@ -52,16 +53,8 @@ public class VLCPlayer implements MediaPlayer.EventListener{
     }
 
     private void init() {
-        ArrayList<String> args = null;
-        if (mOptions != null && mOptions.getArgs() != null){
-             args = new ArrayList<>();
-             for (Object obj : mOptions.getArgs()){
-                 args.add(obj.toString());
-             }
-        }
-
         if (mMediaPlayer == null){
-            mLibVLC = new LibVLC(mCtx, args);
+            mLibVLC = new LibVLC(mCtx, mOptions);
             mMediaPlayer = new MediaPlayer(mLibVLC);
             mMediaPlayer.setEventListener(this);
 

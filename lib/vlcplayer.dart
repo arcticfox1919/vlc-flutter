@@ -1,5 +1,6 @@
 library vlcplayer;
 
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';

@@ -1,135 +1,78 @@
-
-
-
 import 'package:pigeon/pigeon.dart';
-
-class TextureParam{
-  int textureId;
-}
-
-class DoubleParam{
-  double value;
-  int textureId;
-}
-
-class BoolParam{
-  bool value;
-  int textureId;
-}
-
-class IntParam{
-  int value;
-  int textureId;
-}
-
-
-class StringParam{
-  String value;
-  int textureId;
-}
-
-class PlayParam{
-  String uri;
-  String path;
-  int textureId;
-}
-
-class BufferSize{
-  int width;
-  int height;
-  int textureId;
-}
-
-class VLCPlayerOptions{
-  List args;
-}
-
-class SlaveParam{
-  int type;
-  String uri;
-  String path;
-  bool select;
-  int textureId;
-}
-
-class TitleDisplayParam{
-  int position;
-  int timeout;
-  int textureId;
-}
 
 @HostApi()
 abstract class VLCPlayerApi{
 
-  TextureParam create(VLCPlayerOptions options);
-  void dispose(TextureParam arg);
+  int create(List<String> options);
+  void createByIOS(List<String> options,int viewId);
+  void dispose(int vid);
   void release();
-  void setDefaultBufferSize(BufferSize size);
+  void setDefaultBufferSize(int width,int height,int textureId);
 
-  void setDataSource(PlayParam data);
+  void setDataSource(String uri, String path, int textureId);
 
-  void setVideoScale(IntParam type);
+  void setVideoScale(int value,int textureId);
 
-  IntParam getVideoScale(TextureParam param);
+  int getVideoScale(int textureId);
 
-  void play(PlayParam param);
-
-
-  void stop(TextureParam param);
+  void play(String uri, String path, int textureId);
 
 
-  DoubleParam getScale(TextureParam param);
+  void stop(int textureId);
 
 
-  void setScale(DoubleParam scale);
+  double getScale(int textureId);
 
 
-  StringParam getAspectRatio(TextureParam param);
+  void setScale(double scale,int textureId);
 
 
-  void setAspectRatio(StringParam aspect);
+  String getAspectRatio(int textureId);
 
 
-  void setRate(DoubleParam rate);
+  void setAspectRatio(String aspect,int textureId);
 
 
-  DoubleParam getRate(TextureParam param);
+  void setRate(double rate,int textureId);
 
 
-  BoolParam isPlaying(TextureParam param);
+  double getRate(int textureId);
 
 
-  BoolParam isSeekable(TextureParam param);
+  bool isPlaying(int textureId);
 
 
-  void pause(TextureParam param);
+  bool isSeekable(int textureId);
 
 
-  IntParam getPlayerState(TextureParam param);
+  void pause(int textureId);
 
 
-  IntParam getVolume(TextureParam param);
+  int getPlayerState(int textureId);
 
 
-  IntParam setVolume(IntParam volume);
+  int getVolume(int textureId);
 
 
-  IntParam getTime(TextureParam param);
+  int setVolume(int volume,int textureId);
 
 
-  IntParam setTime(IntParam time);
+  int getTime(int textureId);
 
 
-  DoubleParam getPosition(TextureParam param);
+  int setTime(int time,int textureId);
 
 
-  void setPosition(DoubleParam pos);
+  double getPosition(int textureId);
 
-  IntParam getLength(TextureParam param);
 
-  BoolParam addSlave(SlaveParam param);
+  void setPosition(double pos,int textureId);
 
-  void setVideoTitleDisplay(TitleDisplayParam param);
+  int getLength(int textureId);
 
-  BoolParam record(StringParam directory);
+  bool addSlave(int type, String uri, String path, bool select, int textureId);
+
+  void setVideoTitleDisplay(int position,int timeout,int textureId);
+
+  bool record(String directory,int textureId);
 }

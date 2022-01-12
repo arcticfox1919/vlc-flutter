@@ -1,5 +1,6 @@
 part of vlcplayer;
 
+const _eventChannelPrefix = 'xyz.bczl.vlc_flutter/VLCPlayer/id_';
 
 enum VLCState {
   NothingSpecial,
@@ -16,9 +17,9 @@ class VLCValue{
   final VLCState state;
   VLCValue.uninitialized():this(state:VLCState.NothingSpecial);
 
-  VLCValue({@required this.state});
+  VLCValue({required this.state});
 
-  VLCValue copyWith({VLCState state}){
+  VLCValue copyWith({VLCState? state}){
     return VLCValue(
         state:state ?? this.state
     );
@@ -26,18 +27,18 @@ class VLCValue{
 }
 
 class VLCEvent{
-  EventType type;
-  double buffering;
-  int timeChanged;
-  int lengthChanged;
-  double positionChanged;
-  int voutCount;
-  int esChangedType;
-  int esChangedID;
-  bool seekable;
-  bool pausable;
-  bool recording;
-  String recordPath;
+  EventType? type;
+  double? buffering;
+  int? timeChanged;
+  int? lengthChanged;
+  double? positionChanged;
+  int? voutCount;
+  int? esChangedType;
+  int? esChangedID;
+  bool? seekable;
+  bool? pausable;
+  bool? recording;
+  String? recordPath;
 
   VLCEvent.fromMap(Map param){
     type = EventOriginalType.getType(param["type"]);
@@ -66,7 +67,7 @@ class VLCEvent{
 
 class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
-  VLCPlayerApi _vlcApi;
+  late VLCPlayerApi _vlcApi;
 
   int _textureId = -1;
 
@@ -74,7 +75,9 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
 
   bool _isDisposed = false;
   bool _isNeedDisposed = false;
-  VLCValue _value;
+  late VLCValue _value;
+
+  final List<String> _args;
 
   final StreamController<VLCState> _stateStreamController =
       StreamController.broadcast();
@@ -83,24 +86,37 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
       StreamController.broadcast();
 
 
-  StreamSubscription _eventSubscription;
+  StreamSubscription? _eventSubscription;
 
-  VLCController({List<Object> args})
-      : _createTexture = Completer(){
+  VLCController({List<String>? args})
+      : _createTexture = Completer(),_args = args ?? []{
     _vlcApi = VLCPlayerApi();
     _value = VLCValue.uninitialized();
-    _create(args:args);
+
+    if(Platform.isAndroid){
+      _create(args:_args);
+    }
   }
 
-  Future<void> _create({List<Object> args}) async {
-    var param = await _vlcApi.create(VLCPlayerOptions()..args=args);
-    _textureId = param?.textureId ?? -1;
-
+  Future<void> _create({required List<String> args}) async {
+    _textureId = await _vlcApi.create(args);
     _eventSubscription =
-        EventChannel("xyz.bczl.vlc_flutter/VLCPlayer/id_$_textureId")
+        EventChannel("$_eventChannelPrefix$_textureId")
             .receiveBroadcastStream()
             .listen(_eventHandler, onError: _errorHandler);
+
     _createTexture.complete(_textureId);
+  }
+
+  Future<void> _initViewId(int viewId) async{
+    _eventSubscription =
+        EventChannel("$_eventChannelPrefix$viewId")
+            .receiveBroadcastStream()
+            .listen(_eventHandler, onError: _errorHandler);
+
+    _textureId = viewId;
+    await _vlcApi.createByIOS(_args,viewId);
+    _createTexture.complete(viewId);
   }
 
   ///
@@ -161,11 +177,9 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<void> setBufferSize(int width,int height)async{
     if(_isNeedDisposed) return;
     await _ensureInitialized();
-    var size = BufferSize()
-      ..textureId = _textureId
-      ..width = (width*window.devicePixelRatio).toInt()
-      ..height = (height*window.devicePixelRatio).toInt();
-    return _vlcApi.setDefaultBufferSize(size);
+      var w = (width*window.devicePixelRatio).toInt();
+      var h = (height*window.devicePixelRatio).toInt();
+    return _vlcApi.setDefaultBufferSize(w,h,_textureId);
   }
 
   ///
@@ -177,8 +191,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
     if(!_isDisposed){
       _isDisposed = true;
       await _ensureInitialized();
-      await _vlcApi.dispose(TextureParam()..textureId=_textureId);
-      _eventSubscription.cancel();
+      await _vlcApi.dispose(_textureId);
+      _eventSubscription?.cancel();
       _stateStreamController.close();
       _eventStreamController.close();
     }
@@ -192,15 +206,11 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   /// see [play] method
   ///
-  Future<void> setDataSource({String uri,String path}) async {
-    assert(uri != null || path !=null);
+  Future<void> setDataSource({String uri='',String path=''}) async {
+    assert(uri.isNotEmpty || path.isNotEmpty);
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    var p = PlayParam();
-    p.textureId = _textureId;
-    p.uri = uri;
-    p.path = path;
-    await _vlcApi.setDataSource(p);
+    await _vlcApi.setDataSource(uri,path,_textureId);
   }
 
   ///
@@ -209,14 +219,10 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   /// [uri] Uri of the media to play
   /// [path] Path of the media file to play
   ///
-  Future<void> play({String uri,String path}) async {
+  Future<void> play({String uri='',String path=''}) async {
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    var p = PlayParam();
-    p.textureId = _textureId;
-    p.uri = uri;
-    p.path = path;
-    await _vlcApi.play(p);
+    await _vlcApi.play(uri,path,_textureId);
   }
 
 
@@ -227,9 +233,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void setVideoScale(ScaleType type) async {
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    await _vlcApi.setVideoScale(IntParam()
-      ..textureId = _textureId
-      ..value = type.index);
+    await _vlcApi.setVideoScale(_textureId,type.index);
   }
 
   ///
@@ -239,8 +243,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<ScaleType> getVideoScale() async {
     await _ensureInitialized();
     if(_isNeedDisposed) return ScaleType.SURFACE_BEST_FIT;
-    IntParam ip = await _vlcApi.getVideoScale(TextureParam()..textureId=_textureId);
-    return ScaleType.values[ip.value];
+    var index = await _vlcApi.getVideoScale(_textureId);
+    return ScaleType.values[index];
   }
 
   ///
@@ -249,7 +253,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void stop() async{
     await _ensureInitialized();
     if(_isNeedDisposed) return ;
-    await _vlcApi.stop(TextureParam()..textureId=_textureId);
+    await _vlcApi.stop(_textureId);
   }
 
   ///
@@ -261,8 +265,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<double> getScale()async{
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
-    DoubleParam dp = await _vlcApi.getScale(TextureParam()..textureId=_textureId);
-    return dp.value;
+    return await _vlcApi.getScale(_textureId);
   }
 
   ///
@@ -277,9 +280,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void setScale(double scale) async {
     await _ensureInitialized();
     if(_isNeedDisposed) return ;
-    await _vlcApi.setScale(DoubleParam()
-      ..textureId = _textureId
-      ..value = scale);
+    await _vlcApi.setScale(scale,_textureId);
   }
 
   ///
@@ -289,10 +290,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   ///
   Future<String> getAspectRatio() async {
     await _ensureInitialized();
-    if(_isNeedDisposed) return null;
-    StringParam sp =
-        await _vlcApi.getAspectRatio(TextureParam()..textureId = _textureId);
-    return sp.value;
+    if(_isNeedDisposed) return '';
+    return await _vlcApi.getAspectRatio(_textureId);
   }
 
   ///
@@ -303,9 +302,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void setAspectRatio(String aspect)async{
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    await _vlcApi.setAspectRatio(StringParam()
-      ..textureId = _textureId
-      ..value = aspect);
+    await _vlcApi.setAspectRatio(aspect,_textureId);
   }
 
   ///
@@ -316,9 +313,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void setRate(double rate)async{
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    await _vlcApi.setRate(DoubleParam()
-      ..textureId = _textureId
-      ..value = rate);
+    await _vlcApi.setRate(rate,_textureId);
   }
 
   ///
@@ -327,9 +322,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<double> getRate()async{
     await _ensureInitialized();
     if(_isNeedDisposed) return 0.0;
-    DoubleParam dp =
-        await _vlcApi.getRate(TextureParam()..textureId = _textureId);
-    return dp.value;
+    return await _vlcApi.getRate(_textureId);
   }
 
   ///
@@ -338,9 +331,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<bool> isPlaying() async {
     await _ensureInitialized();
     if(_isNeedDisposed) return false;
-    BoolParam bp =
-        await _vlcApi.isPlaying(TextureParam()..textureId = _textureId);
-    return bp.value;
+    return await _vlcApi.isPlaying(_textureId);
   }
 
   ///
@@ -349,9 +340,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<bool> isSeekable()async{
     await _ensureInitialized();
     if(_isNeedDisposed) return false;
-    BoolParam bp =
-        await _vlcApi.isSeekable(TextureParam()..textureId = _textureId);
-    return bp.value;
+    return await _vlcApi.isSeekable(_textureId);
   }
 
   ///
@@ -360,7 +349,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void pause() async {
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    await _vlcApi.pause(TextureParam()..textureId = _textureId);
+    await _vlcApi.pause(_textureId);
   }
 
   ///
@@ -369,10 +358,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<VLCState> getPlayerState() async {
     await _ensureInitialized();
     if(_isNeedDisposed) return VLCState.Stopped;
-    IntParam ip =
-        await _vlcApi.getPlayerState(TextureParam()..textureId = _textureId);
-
-    return VLCState.values[ip.value];
+    var i = await _vlcApi.getPlayerState(_textureId);
+    return VLCState.values[i];
   }
 
   ///
@@ -381,9 +368,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<int> getVolume() async {
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
-    IntParam ip =
-        await _vlcApi.getVolume(TextureParam()..textureId = _textureId);
-    return ip.value;
+    return await _vlcApi.getVolume(_textureId);
   }
 
   ///
@@ -393,10 +378,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<int> setVolume(int volume) async {
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
-    IntParam ip = await _vlcApi.setVolume(IntParam()
-      ..textureId = _textureId
-      ..value = volume);
-    return ip.value;
+    return await _vlcApi.setVolume(volume,_textureId);
   }
 
   ///
@@ -406,9 +388,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<int> getTime() async {
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
-    IntParam ip =
-        await _vlcApi.getTime(TextureParam()..textureId = _textureId);
-    return ip.value;
+    return await _vlcApi.getTime(_textureId);
   }
 
   ///
@@ -419,10 +399,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<int> setTime(int time)async{
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
-    IntParam ip = await _vlcApi.setTime(IntParam()
-      ..textureId = _textureId
-      ..value = time);
-    return ip.value;
+    return await _vlcApi.setTime(time,_textureId);
   }
 
   ///
@@ -432,9 +409,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<double> getPosition()async{
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
-    DoubleParam dp =
-        await _vlcApi.getPosition(TextureParam()..textureId = _textureId);
-    return dp.value;
+    return await _vlcApi.getPosition(_textureId);
   }
 
   ///
@@ -445,9 +420,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void setPosition(double pos)async{
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    await _vlcApi.setPosition(DoubleParam()
-      ..textureId = _textureId
-      ..value = pos);
+    await _vlcApi.setPosition(pos,_textureId);
   }
 
   ///
@@ -458,9 +431,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<int> getLength()async{
     await _ensureInitialized();
     if(_isNeedDisposed) return -1;
-    IntParam ip =
-        await _vlcApi.getLength(TextureParam()..textureId = _textureId);
-    return ip.value;
+    return await _vlcApi.getLength(_textureId);
   }
 
   ///
@@ -472,17 +443,11 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   /// [select] True if this slave should be selected when it's loaded
   /// return true on success.
   ///
-  Future<bool> addSlave({int type=0, String uri,String path, bool select=true}) async {
-    assert(uri != null || path !=null);
+  Future<bool> addSlave({int type=0, String uri='',String path='', bool select=true}) async {
+    assert(uri.isNotEmpty || path.isNotEmpty);
     await _ensureInitialized();
     if(_isNeedDisposed) return false;
-    BoolParam bp = await _vlcApi.addSlave(SlaveParam()
-      ..textureId = _textureId
-      ..type = type
-      ..uri = uri
-      ..path = path
-      ..select = select);
-    return bp.value;
+    return await _vlcApi.addSlave(type,uri,path,select,_textureId);
   }
 
   ///
@@ -494,10 +459,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   void setVideoTitleDisplay(int position, int timeout) async {
     await _ensureInitialized();
     if(_isNeedDisposed) return;
-    await _vlcApi.setVideoTitleDisplay(TitleDisplayParam()
-      ..textureId = _textureId
-      ..position = position
-      ..timeout = timeout);
+    await _vlcApi.setVideoTitleDisplay(position,timeout,_textureId);
   }
 
   ///
@@ -510,10 +472,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   Future<bool> _record(String directory) async {
     await _ensureInitialized();
     if(_isNeedDisposed) return false;
-    BoolParam bp = await _vlcApi.record(StringParam()
-      ..textureId = _textureId
-      ..value = directory);
-    return bp.value;
+    return await _vlcApi.record(directory,_textureId);
   }
 
   ///
@@ -527,7 +486,7 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
   /// Stop recording
   ///
   Future<bool> stopRecord(){
-    return _record(null);
+    return _record('');
   }
 
   @override
@@ -609,7 +568,7 @@ class EventOriginalType{
   };
 
   static EventType getType(int type){
-    return _map[type];
+    return _map[type]!;
   }
 }
 

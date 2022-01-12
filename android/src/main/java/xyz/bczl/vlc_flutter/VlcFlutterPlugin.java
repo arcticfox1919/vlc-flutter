@@ -9,14 +9,16 @@ import androidx.annotation.NonNull;
 
 import org.videolan.libvlc.MediaPlayer;
 
+import java.util.List;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.view.TextureRegistry;
-import xyz.bczl.vlc_flutter.VLCPlayerAPI.VLCPlayerApi;
+
 
 /** VlcFlutterPlugin */
-public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerApi {
+public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerAPI.VLCPlayerApi {
   private static final String TAG = "VlcFlutterPlugin";
 
   private final LongSparseArray<VLCPlayer> mPlayers = new LongSparseArray<>();
@@ -43,7 +45,7 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerApi {
   }
 
   @Override
-  public VLCPlayerAPI.TextureParam create(VLCPlayerAPI.VLCPlayerOptions options) {
+  public Long create(List<String> options) {
     TextureRegistry.SurfaceTextureEntry textureEntry =
             mFlutterState.textureRegistry.createSurfaceTexture();
 
@@ -55,16 +57,17 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerApi {
     VLCPlayer player = new VLCPlayer(mFlutterState.applicationContext,eventChannel,textureEntry,options);
     mPlayers.put(textureId, player);
 
-    VLCPlayerAPI.TextureParam result = new VLCPlayerAPI.TextureParam();
-    result.setTextureId(textureId);
-    return result;
+    return textureId;
   }
 
   @Override
-  public void dispose(VLCPlayerAPI.TextureParam arg) {
-    VLCPlayer p = mPlayers.get(arg.getTextureId());
+  public void createByIOS(List<String> options, Long viewId) {}
+
+  @Override
+  public void dispose(Long id) {
+    VLCPlayer p = mPlayers.get(id);
     if (p != null) p.dispose();
-    mPlayers.remove(arg.getTextureId());
+    mPlayers.remove(id);
   }
 
   @Override
@@ -76,17 +79,16 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerApi {
   }
 
   @Override
-  public void setDefaultBufferSize(VLCPlayerAPI.BufferSize arg) {
-    mPlayers.get(arg.getTextureId()).setDefaultBufferSize(
-            arg.getWidth().intValue(),arg.getHeight().intValue());
+  public void setDefaultBufferSize(Long width, Long height, Long textureId){
+    mPlayers.get(textureId).setDefaultBufferSize(width.intValue(),height.intValue());
   }
 
   @Override
-  public void setDataSource(VLCPlayerAPI.PlayParam arg) {
-    if (arg.getUri() != null){
-      mPlayers.get(arg.getTextureId()).setDataSource(Uri.parse(arg.getUri()));
-    }else if (arg.getPath() != null){
-      mPlayers.get(arg.getTextureId()).setDataSource(arg.getPath());
+  public void setDataSource(String uri, String path, Long textureId){
+    if (uri != null && !uri.isEmpty()){
+      mPlayers.get(textureId).setDataSource(Uri.parse(uri));
+    }else if (path != null && !uri.isEmpty()){
+      mPlayers.get(textureId).setDataSource(path);
     }
   }
 
@@ -95,196 +97,144 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerApi {
   }
 
   @Override
-  public void setVideoScale(VLCPlayerAPI.IntParam arg) {
-    player(arg.getTextureId()).setVideoScale(
-            MediaPlayer.ScaleType.values()[arg.getValue().intValue()]);
+  public void setVideoScale(Long value, Long textureId) {
+    player(textureId).setVideoScale(
+            MediaPlayer.ScaleType.values()[value.intValue()]);
   }
 
   @Override
-  public VLCPlayerAPI.IntParam getVideoScale(VLCPlayerAPI.TextureParam arg) {
-    MediaPlayer.ScaleType type = player(arg.getTextureId()).getVideoScale();
-    VLCPlayerAPI.IntParam p = new VLCPlayerAPI.IntParam();
-    p.setValue((long)type.ordinal());
-    return p;
+  public Long getVideoScale(Long textureId) {
+    MediaPlayer.ScaleType type = player(textureId).getVideoScale();
+    return (long)type.ordinal();
   }
 
   @Override
-  public void play(VLCPlayerAPI.PlayParam arg) {
-    if (arg.getUri() != null){
-      player(arg.getTextureId()).play(Uri.parse(arg.getUri()));
-    }else if (arg.getPath() != null){
-      player(arg.getTextureId()).play(arg.getPath());
+  public void play(String uri, String path, Long textureId){
+    if (uri != null && !uri.isEmpty()){
+      player(textureId).play(Uri.parse(uri));
+    }else if (path != null && !uri.isEmpty()){
+      player(textureId).play(path);
     }else {
-      player(arg.getTextureId()).play();
+      player(textureId).play();
     }
   }
 
   @Override
-  public void stop(VLCPlayerAPI.TextureParam arg) {
-    player(arg.getTextureId()).stop();
+  public void stop(Long textureId) {
+    player(textureId).stop();
   }
 
   @Override
-  public VLCPlayerAPI.DoubleParam getScale(VLCPlayerAPI.TextureParam arg) {
-    float val = player(arg.getTextureId()).getScale();
-    VLCPlayerAPI.DoubleParam r = new VLCPlayerAPI.DoubleParam();
-    r.setValue((double)val);
+  public Double getScale(Long textureId) {
+    float val = player(textureId).getScale();
+    return (double)val;
+  }
+
+  @Override
+  public void setScale(Double scale, Long textureId) {
+    player(textureId).setScale(scale.floatValue());
+  }
+
+  @Override
+  public String getAspectRatio(Long textureId) {
+    return player(textureId).getAspectRatio();
+  }
+
+  @Override
+  public void setAspectRatio(String aspect, Long textureId) {
+    player(textureId).setAspectRatio(aspect);
+  }
+
+  @Override
+  public void setRate(Double rate, Long textureId) {
+    player(textureId).setRate(rate.floatValue());
+  }
+
+  @Override
+  public Double getRate(Long textureId) {
+    float rate = player(textureId).getRate();
+    return (double)rate;
+  }
+
+  @Override
+  public Boolean isPlaying(Long textureId) {
+    return player(textureId).isPlaying();
+  }
+
+  @Override
+  public Boolean isSeekable(Long textureId) {
+    return player(textureId).isSeekable();
+  }
+
+  @Override
+  public void pause(Long textureId) {
+    player(textureId).pause();
+  }
+
+  @Override
+  public Long getPlayerState(Long textureId) {
+    int state = player(textureId).getPlayerState();
+    return (long)state;
+  }
+
+  @Override
+  public Long getVolume(Long textureId) {
+    int volume = player(textureId).getVolume();
+    return (long)volume;
+  }
+
+  @Override
+  public Long setVolume(Long volume, Long textureId) {
+    Integer r = player(textureId).setVolume(volume.intValue());
+    return r.longValue();
+  }
+
+  @Override
+  public Long getTime(Long textureId) {
+    return player(textureId).getTime();
+  }
+
+  @Override
+  public Long setTime(Long time, Long textureId) {
+    return player(textureId).setTime(time);
+  }
+
+  @Override
+  public Double getPosition(Long textureId) {
+    Float position = player(textureId).getPosition();
+    return position.doubleValue();
+  }
+
+  @Override
+  public void setPosition(Double pos, Long textureId) {
+    player(textureId).setPosition(pos.floatValue());
+  }
+
+  @Override
+  public Long getLength(Long textureId) {
+    return player(textureId).getLength();
+  }
+
+  @Override
+  public Boolean addSlave(Long type, String uri, String path, Boolean select, Long textureId) {
+    boolean r = false;
+    if (uri != null){
+      r = player(textureId).addSlave(type.intValue(),Uri.parse(uri),select);
+    }else if (path != null){
+      r = player(textureId).addSlave(type.intValue(),path,select);
+    }
     return r;
   }
 
   @Override
-  public void setScale(VLCPlayerAPI.DoubleParam arg) {
-    player(arg.getTextureId()).setScale(arg.getValue().floatValue());
+  public void setVideoTitleDisplay(Long position, Long timeout, Long textureId) {
+    player(textureId).setVideoTitleDisplay(position.intValue(),timeout.intValue());
   }
 
   @Override
-  public VLCPlayerAPI.StringParam getAspectRatio(VLCPlayerAPI.TextureParam arg) {
-    String ratio = player(arg.getTextureId()).getAspectRatio();
-
-    VLCPlayerAPI.StringParam sp = new VLCPlayerAPI.StringParam();
-    sp.setValue(ratio);
-    return sp;
-  }
-
-  @Override
-  public void setAspectRatio(VLCPlayerAPI.StringParam arg) {
-    player(arg.getTextureId()).setAspectRatio(arg.getValue());
-  }
-
-  @Override
-  public void setRate(VLCPlayerAPI.DoubleParam arg) {
-    player(arg.getTextureId()).setRate(arg.getValue().floatValue());
-  }
-
-  @Override
-  public VLCPlayerAPI.DoubleParam getRate(VLCPlayerAPI.TextureParam arg) {
-    float rate = player(arg.getTextureId()).getRate();
-
-    VLCPlayerAPI.DoubleParam dp = new VLCPlayerAPI.DoubleParam();
-    dp.setValue((double)rate);
-    return dp;
-  }
-
-  @Override
-  public VLCPlayerAPI.BoolParam isPlaying(VLCPlayerAPI.TextureParam arg) {
-    boolean playing = player(arg.getTextureId()).isPlaying();
-
-    VLCPlayerAPI.BoolParam bp = new VLCPlayerAPI.BoolParam();
-    bp.setValue(playing);
-    return bp;
-  }
-
-  @Override
-  public VLCPlayerAPI.BoolParam isSeekable(VLCPlayerAPI.TextureParam arg) {
-    boolean seekable = player(arg.getTextureId()).isSeekable();
-
-    VLCPlayerAPI.BoolParam bp = new VLCPlayerAPI.BoolParam();
-    bp.setValue(seekable);
-    return bp;
-  }
-
-  @Override
-  public void pause(VLCPlayerAPI.TextureParam arg) {
-    player(arg.getTextureId()).pause();
-  }
-
-  @Override
-  public VLCPlayerAPI.IntParam getPlayerState(VLCPlayerAPI.TextureParam arg) {
-    int state = player(arg.getTextureId()).getPlayerState();
-
-    VLCPlayerAPI.IntParam ip = new VLCPlayerAPI.IntParam();
-    ip.setValue((long)state);
-    return ip;
-  }
-
-  @Override
-  public VLCPlayerAPI.IntParam getVolume(VLCPlayerAPI.TextureParam arg) {
-    int volume = player(arg.getTextureId()).getVolume();
-
-    VLCPlayerAPI.IntParam ip = new VLCPlayerAPI.IntParam();
-    ip.setValue((long)volume);
-    return ip;
-  }
-
-  @Override
-  public VLCPlayerAPI.IntParam setVolume(VLCPlayerAPI.IntParam arg) {
-    long r = player(arg.getTextureId()).setVolume(arg.getValue().intValue());
-
-    VLCPlayerAPI.IntParam ip = new VLCPlayerAPI.IntParam();
-    ip.setValue(r);
-    return ip;
-  }
-
-  @Override
-  public VLCPlayerAPI.IntParam getTime(VLCPlayerAPI.TextureParam arg) {
-    long time = player(arg.getTextureId()).getTime();
-
-    VLCPlayerAPI.IntParam ip = new VLCPlayerAPI.IntParam();
-    ip.setValue(time);
-    return ip;
-  }
-
-  @Override
-  public VLCPlayerAPI.IntParam setTime(VLCPlayerAPI.IntParam arg) {
-    long r = player(arg.getTextureId()).setTime(arg.getValue());
-
-    VLCPlayerAPI.IntParam ip = new VLCPlayerAPI.IntParam();
-    ip.setValue(r);
-    return ip;
-  }
-
-  @Override
-  public VLCPlayerAPI.DoubleParam getPosition(VLCPlayerAPI.TextureParam arg) {
-    float position = player(arg.getTextureId()).getPosition();
-
-    VLCPlayerAPI.DoubleParam dp = new VLCPlayerAPI.DoubleParam();
-    dp.setValue((double)position);
-    return dp;
-  }
-
-  @Override
-  public void setPosition(VLCPlayerAPI.DoubleParam arg) {
-    player(arg.getTextureId()).setPosition(arg.getValue().floatValue());
-  }
-
-  @Override
-  public VLCPlayerAPI.IntParam getLength(VLCPlayerAPI.TextureParam arg) {
-    long len = player(arg.getTextureId()).getLength();
-
-    VLCPlayerAPI.IntParam ip = new VLCPlayerAPI.IntParam();
-    ip.setValue(len);
-    return ip;
-  }
-
-  @Override
-  public VLCPlayerAPI.BoolParam addSlave(VLCPlayerAPI.SlaveParam arg) {
-    boolean r = false;
-    if (arg.getUri() != null){
-      r = player(arg.getTextureId()).addSlave(
-              arg.getType().intValue(),Uri.parse(arg.getUri()),arg.getSelect());
-    }else if (arg.getPath() != null){
-      r = player(arg.getTextureId()).addSlave(
-              arg.getType().intValue(),arg.getPath(),arg.getSelect());
-    }
-
-    VLCPlayerAPI.BoolParam bp = new VLCPlayerAPI.BoolParam();
-    bp.setValue(r);
-    return bp;
-  }
-
-  @Override
-  public void setVideoTitleDisplay(VLCPlayerAPI.TitleDisplayParam arg) {
-    player(arg.getTextureId()).setVideoTitleDisplay(
-            arg.getPosition().intValue(),arg.getTimeout().intValue());
-  }
-
-  @Override
-  public VLCPlayerAPI.BoolParam record(VLCPlayerAPI.StringParam arg) {
-    boolean r = player(arg.getTextureId()).record(arg.getValue());
-
-    VLCPlayerAPI.BoolParam bp = new VLCPlayerAPI.BoolParam();
-    bp.setValue(r);
-    return bp;
+  public Boolean record(String directory, Long textureId) {
+    String path = directory.isEmpty()?null:directory;
+    return player(textureId).record(path);
   }
 
 
@@ -302,11 +252,11 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerApi {
     }
 
     void startListening(VlcFlutterPlugin plugin, BinaryMessenger messenger) {
-      VLCPlayerApi.setup(messenger, plugin);
+      VLCPlayerAPI.VLCPlayerApi.setup(messenger, plugin);
     }
 
     void stopListening(BinaryMessenger messenger) {
-      VLCPlayerApi.setup(messenger, null);
+      VLCPlayerAPI.VLCPlayerApi.setup(messenger, null);
     }
   }
 }
