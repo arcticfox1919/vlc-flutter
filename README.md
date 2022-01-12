@@ -5,7 +5,7 @@ This is a Flutter wrapper plugin for libvlc.See their [website](https://www.vide
 Todo:
 
 - [x]  Android
-- [ ]  iOS
+- [x]  iOS
 
 
 
