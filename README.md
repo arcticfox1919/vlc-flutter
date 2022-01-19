@@ -13,7 +13,7 @@ Todo:
 
 ```yaml
 dependencies:
-  vlc_flutter: ^0.0.1
+  vlc_flutter: ^0.0.2
 ```
 
 
