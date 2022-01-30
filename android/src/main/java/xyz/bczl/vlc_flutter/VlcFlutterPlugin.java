@@ -87,7 +87,7 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerAPI.VLCPlayerAp
   public void setDataSource(String uri, String path, Long textureId){
     if (uri != null && !uri.isEmpty()){
       mPlayers.get(textureId).setDataSource(Uri.parse(uri));
-    }else if (path != null && !uri.isEmpty()){
+    }else if (path != null && !path.isEmpty()){
       mPlayers.get(textureId).setDataSource(path);
     }
   }
@@ -112,7 +112,7 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerAPI.VLCPlayerAp
   public void play(String uri, String path, Long textureId){
     if (uri != null && !uri.isEmpty()){
       player(textureId).play(Uri.parse(uri));
-    }else if (path != null && !uri.isEmpty()){
+    }else if (path != null && !path.isEmpty()){
       player(textureId).play(path);
     }else {
       player(textureId).play();
