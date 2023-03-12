@@ -191,8 +191,8 @@ class VLCController extends ChangeNotifier implements ValueListenable<VLCValue>{
     if(!_isDisposed){
       _isDisposed = true;
       await _ensureInitialized();
-      await _vlcApi.dispose(_textureId);
       _eventSubscription?.cancel();
+      await _vlcApi.dispose(_textureId);
       _stateStreamController.close();
       _eventStreamController.close();
     }
