@@ -12,9 +12,11 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  pigeon: ^1.0.13
+  pigeon: ^9.0.6
   flutter_test:
     sdk: flutter
+
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
