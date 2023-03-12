@@ -3,9 +3,13 @@ import 'package:pigeon/pigeon.dart';
 @HostApi()
 abstract class VLCPlayerApi {
   int create(List<String> options);
+
   void createByIOS(List<String> options, int viewId);
+
   void dispose(int vid);
+
   void release();
+
   void setDefaultBufferSize(int width, int height, int textureId);
 
   void setDataSource(String uri, String path, int textureId);
