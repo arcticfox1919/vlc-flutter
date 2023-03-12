@@ -8,18 +8,18 @@
 #endif
 
 static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) {
-  NSDictionary *errorDict = (NSDictionary *)[NSNull null];
-  if (error) {
-    errorDict = @{
-        @"code": (error.code ? error.code : [NSNull null]),
-        @"message": (error.message ? error.message : [NSNull null]),
-        @"details": (error.details ? error.details : [NSNull null]),
+    NSDictionary *errorDict = (NSDictionary *)[NSNull null];
+    if (error) {
+        errorDict = @{
+            @"code": (error.code ? error.code : [NSNull null]),
+            @"message": (error.message ? error.message : [NSNull null]),
+            @"details": (error.details ? error.details : [NSNull null]),
         };
-  }
-  return @{
-      @"result": (result ? result : [NSNull null]),
-      @"error": errorDict,
-      };
+    }
+    return @{
+        @"result": (result ? result : [NSNull null]),
+        @"error": errorDict,
+    };
 }
 
 
@@ -37,642 +37,642 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 @end
 @implementation VLCPlayerApiCodecReaderWriter
 - (FlutterStandardWriter *)writerWithData:(NSMutableData *)data {
-  return [[VLCPlayerApiCodecWriter alloc] initWithData:data];
+    return [[VLCPlayerApiCodecWriter alloc] initWithData:data];
 }
 - (FlutterStandardReader *)readerWithData:(NSData *)data {
-  return [[VLCPlayerApiCodecReader alloc] initWithData:data];
+    return [[VLCPlayerApiCodecReader alloc] initWithData:data];
 }
 @end
 
 NSObject<FlutterMessageCodec> *VLCPlayerApiGetCodec() {
-  static dispatch_once_t s_pred = 0;
-  static FlutterStandardMessageCodec *s_sharedObject = nil;
-  dispatch_once(&s_pred, ^{
-    VLCPlayerApiCodecReaderWriter *readerWriter = [[VLCPlayerApiCodecReaderWriter alloc] init];
-    s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
-  });
-  return s_sharedObject;
+    static dispatch_once_t s_pred = 0;
+    static FlutterStandardMessageCodec *s_sharedObject = nil;
+    dispatch_once(&s_pred, ^{
+        VLCPlayerApiCodecReaderWriter *readerWriter = [[VLCPlayerApiCodecReaderWriter alloc] init];
+        s_sharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    });
+    return s_sharedObject;
 }
 
 
 void VLCPlayerApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<VLCPlayerApi> *api) {
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.create"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(createOptions:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(createOptions:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSArray<NSString *> *arg_options = args[0];
-        FlutterError *error;
-        NSNumber *output = [api createOptions:arg_options error:&error];
-        callback(wrapResult(output, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.create"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(createOptions:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(createOptions:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSArray<NSString *> *arg_options = args[0];
+                FlutterError *error;
+                NSNumber *output = [api createOptions:arg_options error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.createByIOS"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(createByIOSOptions:viewId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(createByIOSOptions:viewId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSArray<NSString *> *arg_options = args[0];
+                NSNumber *arg_viewId = args[1];
+                FlutterError *error;
+                [api createByIOSOptions:arg_options viewId:arg_viewId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.createByIOS"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(createByIOSOptions:viewId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(createByIOSOptions:viewId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSArray<NSString *> *arg_options = args[0];
-        NSNumber *arg_viewId = args[1];
-        FlutterError *error;
-        [api createByIOSOptions:arg_options viewId:arg_viewId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.dispose"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(disposeId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(disposeId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_id = args[0];
+                FlutterError *error;
+                [api disposeId:arg_id error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.release"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(releaseWithError:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(releaseWithError:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                FlutterError *error;
+                [api releaseWithError:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.dispose"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(disposeId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(disposeId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_id = args[0];
-        FlutterError *error;
-        [api disposeId:arg_id error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setDefaultBufferSize"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setDefaultBufferSizeWidth:height:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setDefaultBufferSizeWidth:height:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_width = args[0];
+                NSNumber *arg_height = args[1];
+                NSNumber *arg_textureId = args[2];
+                FlutterError *error;
+                [api setDefaultBufferSizeWidth:arg_width height:arg_height textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setDataSource"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setDataSourceUri:path:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setDataSourceUri:path:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSString *arg_uri = args[0];
+                NSString *arg_path = args[1];
+                NSNumber *arg_textureId = args[2];
+                FlutterError *error;
+                [api setDataSourceUri:arg_uri path:arg_path textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.release"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(releaseWithError:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(releaseWithError:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FlutterError *error;
-        [api releaseWithError:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setVideoScale"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setVideoScaleValue:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setVideoScaleValue:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_value = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                [api setVideoScaleValue:arg_value textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getVideoScale"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getVideoScaleTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getVideoScaleTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getVideoScaleTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setDefaultBufferSize"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setDefaultBufferSizeWidth:height:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setDefaultBufferSizeWidth:height:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_width = args[0];
-        NSNumber *arg_height = args[1];
-        NSNumber *arg_textureId = args[2];
-        FlutterError *error;
-        [api setDefaultBufferSizeWidth:arg_width height:arg_height textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.play"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(playUri:path:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(playUri:path:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSString *arg_uri = args[0];
+                NSString *arg_path = args[1];
+                NSNumber *arg_textureId = args[2];
+                FlutterError *error;
+                [api playUri:arg_uri path:arg_path textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.stop"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(stopTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(stopTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                [api stopTextureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setDataSource"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setDataSourceUri:path:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setDataSourceUri:path:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSString *arg_uri = args[0];
-        NSString *arg_path = args[1];
-        NSNumber *arg_textureId = args[2];
-        FlutterError *error;
-        [api setDataSourceUri:arg_uri path:arg_path textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getScale"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getScaleTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getScaleTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getScaleTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setScale"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setScaleScale:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setScaleScale:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_scale = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                [api setScaleScale:arg_scale textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setVideoScale"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setVideoScaleValue:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setVideoScaleValue:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_value = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        [api setVideoScaleValue:arg_value textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getAspectRatio"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getAspectRatioTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getAspectRatioTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSString *output = [api getAspectRatioTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setAspectRatio"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setAspectRatioAspect:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setAspectRatioAspect:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSString *arg_aspect = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                [api setAspectRatioAspect:arg_aspect textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getVideoScale"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getVideoScaleTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getVideoScaleTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getVideoScaleTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setRate"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setRateRate:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setRateRate:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_rate = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                [api setRateRate:arg_rate textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getRate"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getRateTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getRateTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getRateTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.play"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(playUri:path:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(playUri:path:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSString *arg_uri = args[0];
-        NSString *arg_path = args[1];
-        NSNumber *arg_textureId = args[2];
-        FlutterError *error;
-        [api playUri:arg_uri path:arg_path textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.isPlaying"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(isPlayingTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(isPlayingTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api isPlayingTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.isSeekable"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(isSeekableTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(isSeekableTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api isSeekableTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.stop"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(stopTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(stopTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        [api stopTextureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.pause"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(pauseTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(pauseTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                [api pauseTextureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getPlayerState"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getPlayerStateTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getPlayerStateTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getPlayerStateTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getScale"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getScaleTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getScaleTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getScaleTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getVolume"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getVolumeTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getVolumeTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getVolumeTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setVolume"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setVolumeVolume:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setVolumeVolume:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_volume = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                NSNumber *output = [api setVolumeVolume:arg_volume textureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setScale"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setScaleScale:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setScaleScale:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_scale = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        [api setScaleScale:arg_scale textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getTime"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getTimeTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getTimeTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getTimeTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setTime"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setTimeTime:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setTimeTime:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_time = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                NSNumber *output = [api setTimeTime:arg_time textureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getAspectRatio"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getAspectRatioTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getAspectRatioTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSString *output = [api getAspectRatioTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getPosition"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getPositionTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getPositionTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getPositionTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setPosition"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setPositionPos:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setPositionPos:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_pos = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                [api setPositionPos:arg_pos textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setAspectRatio"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setAspectRatioAspect:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setAspectRatioAspect:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSString *arg_aspect = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        [api setAspectRatioAspect:arg_aspect textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getLength"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(getLengthTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getLengthTextureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_textureId = args[0];
+                FlutterError *error;
+                NSNumber *output = [api getLengthTextureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.addSlave"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(addSlaveType:uri:path:select:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(addSlaveType:uri:path:select:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_type = args[0];
+                NSString *arg_uri = args[1];
+                NSString *arg_path = args[2];
+                NSNumber *arg_select = args[3];
+                NSNumber *arg_textureId = args[4];
+                FlutterError *error;
+                NSNumber *output = [api addSlaveType:arg_type uri:arg_uri path:arg_path select:arg_select textureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setRate"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setRateRate:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setRateRate:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_rate = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        [api setRateRate:arg_rate textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setVideoTitleDisplay"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(setVideoTitleDisplayPosition:timeout:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setVideoTitleDisplayPosition:timeout:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSNumber *arg_position = args[0];
+                NSNumber *arg_timeout = args[1];
+                NSNumber *arg_textureId = args[2];
+                FlutterError *error;
+                [api setVideoTitleDisplayPosition:arg_position timeout:arg_timeout textureId:arg_textureId error:&error];
+                callback(wrapResult(nil, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-    else {
-      [channel setMessageHandler:nil];
+    {
+        FlutterBasicMessageChannel *channel =
+        [FlutterBasicMessageChannel
+         messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.record"
+         binaryMessenger:binaryMessenger
+         codec:VLCPlayerApiGetCodec()];
+        if (api) {
+            NSCAssert([api respondsToSelector:@selector(recordDirectory:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(recordDirectory:textureId:error:)", api);
+            [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+                NSArray *args = message;
+                NSString *arg_directory = args[0];
+                NSNumber *arg_textureId = args[1];
+                FlutterError *error;
+                NSNumber *output = [api recordDirectory:arg_directory textureId:arg_textureId error:&error];
+                callback(wrapResult(output, error));
+            }];
+        }
+        else {
+            [channel setMessageHandler:nil];
+        }
     }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getRate"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getRateTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getRateTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getRateTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.isPlaying"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(isPlayingTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(isPlayingTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api isPlayingTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.isSeekable"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(isSeekableTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(isSeekableTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api isSeekableTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.pause"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(pauseTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(pauseTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        [api pauseTextureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getPlayerState"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getPlayerStateTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getPlayerStateTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getPlayerStateTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getVolume"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getVolumeTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getVolumeTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getVolumeTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setVolume"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setVolumeVolume:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setVolumeVolume:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_volume = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        NSNumber *output = [api setVolumeVolume:arg_volume textureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getTime"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getTimeTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getTimeTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getTimeTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setTime"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setTimeTime:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setTimeTime:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_time = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        NSNumber *output = [api setTimeTime:arg_time textureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getPosition"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getPositionTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getPositionTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getPositionTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setPosition"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setPositionPos:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setPositionPos:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_pos = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        [api setPositionPos:arg_pos textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.getLength"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(getLengthTextureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(getLengthTextureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_textureId = args[0];
-        FlutterError *error;
-        NSNumber *output = [api getLengthTextureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.addSlave"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(addSlaveType:uri:path:select:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(addSlaveType:uri:path:select:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_type = args[0];
-        NSString *arg_uri = args[1];
-        NSString *arg_path = args[2];
-        NSNumber *arg_select = args[3];
-        NSNumber *arg_textureId = args[4];
-        FlutterError *error;
-        NSNumber *output = [api addSlaveType:arg_type uri:arg_uri path:arg_path select:arg_select textureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.setVideoTitleDisplay"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(setVideoTitleDisplayPosition:timeout:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(setVideoTitleDisplayPosition:timeout:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSNumber *arg_position = args[0];
-        NSNumber *arg_timeout = args[1];
-        NSNumber *arg_textureId = args[2];
-        FlutterError *error;
-        [api setVideoTitleDisplayPosition:arg_position timeout:arg_timeout textureId:arg_textureId error:&error];
-        callback(wrapResult(nil, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [FlutterBasicMessageChannel
-        messageChannelWithName:@"dev.flutter.pigeon.VLCPlayerApi.record"
-        binaryMessenger:binaryMessenger
-        codec:VLCPlayerApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(recordDirectory:textureId:error:)], @"VLCPlayerApi api (%@) doesn't respond to @selector(recordDirectory:textureId:error:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        NSArray *args = message;
-        NSString *arg_directory = args[0];
-        NSNumber *arg_textureId = args[1];
-        FlutterError *error;
-        NSNumber *output = [api recordDirectory:arg_directory textureId:arg_textureId error:&error];
-        callback(wrapResult(output, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
 }

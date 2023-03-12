@@ -17,21 +17,21 @@ import java.util.Map;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.view.TextureRegistry;
 
-public class VLCPlayer implements MediaPlayer.EventListener{
+public class VLCPlayer implements MediaPlayer.EventListener {
 
     private final QueuingEventSink mEventSink = new QueuingEventSink();
 
     private final Context mCtx;
     private final TextureRegistry.SurfaceTextureEntry mTextureEntry;
     private final EventChannel mChannel;
-    private final List<String>  mOptions;
+    private final List<String> mOptions;
     private MediaPlayer mMediaPlayer;
     private LibVLC mLibVLC;
 
     public VLCPlayer(Context ctx,
                      EventChannel channel,
                      TextureRegistry.SurfaceTextureEntry textureEntry,
-                     List<String> options){
+                     List<String> options) {
         mCtx = ctx;
         mChannel = channel;
         mTextureEntry = textureEntry;
@@ -53,7 +53,7 @@ public class VLCPlayer implements MediaPlayer.EventListener{
     }
 
     private void init() {
-        if (mMediaPlayer == null){
+        if (mMediaPlayer == null) {
             mLibVLC = new LibVLC(mCtx, mOptions);
             mMediaPlayer = new MediaPlayer(mLibVLC);
             mMediaPlayer.setEventListener(this);
@@ -64,26 +64,26 @@ public class VLCPlayer implements MediaPlayer.EventListener{
         }
     }
 
-    public void setDefaultBufferSize(int width, int height){
-        mTextureEntry.surfaceTexture().setDefaultBufferSize(width,height);
+    public void setDefaultBufferSize(int width, int height) {
+        mTextureEntry.surfaceTexture().setDefaultBufferSize(width, height);
         mMediaPlayer.setAspectRatio(width + ":" + height);
         mMediaPlayer.getVLCVout().setWindowSize(width, height);
     }
 
-    public void setDataSource(Uri uri){
-        if (mMediaPlayer != null){
+    public void setDataSource(Uri uri) {
+        if (mMediaPlayer != null) {
             mMediaPlayer.setMedia(new Media(mLibVLC, uri));
         }
     }
 
-    public void setDataSource(String path){
-        if (mMediaPlayer != null){
+    public void setDataSource(String path) {
+        if (mMediaPlayer != null) {
             mMediaPlayer.setMedia(new Media(mLibVLC, path));
         }
     }
 
     public void dispose() {
-        if (mMediaPlayer != null){
+        if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mTextureEntry.release();
@@ -92,13 +92,13 @@ public class VLCPlayer implements MediaPlayer.EventListener{
             mMediaPlayer = null;
         }
 
-        if (mLibVLC != null){
+        if (mLibVLC != null) {
             mLibVLC.release();
             mLibVLC = null;
         }
     }
 
-    public MediaPlayer getPlayer(){
+    public MediaPlayer getPlayer() {
         return mMediaPlayer;
     }
 
