@@ -41,7 +41,7 @@ static int play_state_i[] = {
         
         _eventSink = [[QueuingEventSink alloc]init];
         _eventChannel = [FlutterEventChannel eventChannelWithName:channelName binaryMessenger:messenger];
-            [_eventChannel setStreamHandler:self];
+        [_eventChannel setStreamHandler:self];
     }
     return self;
 }

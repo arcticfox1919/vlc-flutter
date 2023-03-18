@@ -45,13 +45,13 @@ final class QueuingEventSink implements EventChannel.EventSink {
     }
 
     private void enqueue(Object event) {
-        if (isEnd)  return;
+        if (isEnd) return;
         eventQueue.offer(event);
     }
 
     private void consume() {
         if (eventSink == null) return;
-        while (!eventQueue.isEmpty()){
+        while (!eventQueue.isEmpty()) {
             Object event = eventQueue.poll();
             if (event instanceof EndEvent) {
                 eventSink.endOfStream();

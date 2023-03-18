@@ -18,9 +18,9 @@
 }
 
 -(instancetype)initWithFrame:(CGRect)frame
-                            viewIdentifier:(int64_t)viewID
-                            arguments:(id _Nullable)args
-    binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;{
+              viewIdentifier:(int64_t)viewID
+                   arguments:(id _Nullable)args
+             binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;{
     
     if(self = [super init]){
         _messenger = messenger;
@@ -43,7 +43,7 @@
     int height = [args[@"height"] intValue];
     
     FLVLCPlayer *player = [[FLVLCPlayer alloc]initWithVideoView:_view andWidth:width andHeight:height binaryMsg:_messenger viewId:_id];
-
+    
     [VlcFlutterPlugin setPlayers:player forKey:_id];
 }
 

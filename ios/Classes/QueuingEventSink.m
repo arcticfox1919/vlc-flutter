@@ -24,7 +24,7 @@
 - (void)maybeFlush {
     if (_delegate == nil)
         return;
-
+    
     for (NSObject *event in _eventQueue) {
         _delegate(event);
     }

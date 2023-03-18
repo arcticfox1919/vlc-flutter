@@ -7,6 +7,7 @@ import io.flutter.plugin.common.BasicMessageChannel;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MessageCodec;
 import io.flutter.plugin.common.StandardMessageCodec;
+
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -15,860 +16,870 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-/** Generated class from Pigeon. */
+/**
+ * Generated class from Pigeon.
+ */
 @SuppressWarnings({"unused", "unchecked", "CodeBlock2Expr", "RedundantSuppression"})
 public class VLCPlayerAPI {
-  private static class VLCPlayerApiCodec extends StandardMessageCodec {
-    public static final VLCPlayerApiCodec INSTANCE = new VLCPlayerApiCodec();
-    private VLCPlayerApiCodec() {}
-  }
+    private static class VLCPlayerApiCodec extends StandardMessageCodec {
+        public static final VLCPlayerApiCodec INSTANCE = new VLCPlayerApiCodec();
 
-  /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
-  public interface VLCPlayerApi {
-    Long create(List<String> options);
-    void createByIOS(List<String> options, Long viewId);
-    void dispose(Long id);
-    void release();
-    void setDefaultBufferSize(Long width, Long height, Long textureId);
-    void setDataSource(String uri, String path, Long textureId);
-    void setVideoScale(Long value, Long textureId);
-    Long getVideoScale(Long textureId);
-    void play(String uri, String path, Long textureId);
-    void stop(Long textureId);
-    Double getScale(Long textureId);
-    void setScale(Double scale, Long textureId);
-    String getAspectRatio(Long textureId);
-    void setAspectRatio(String aspect, Long textureId);
-    void setRate(Double rate, Long textureId);
-    Double getRate(Long textureId);
-    Boolean isPlaying(Long textureId);
-    Boolean isSeekable(Long textureId);
-    void pause(Long textureId);
-    Long getPlayerState(Long textureId);
-    Long getVolume(Long textureId);
-    Long setVolume(Long volume, Long textureId);
-    Long getTime(Long textureId);
-    Long setTime(Long time, Long textureId);
-    Double getPosition(Long textureId);
-    void setPosition(Double pos, Long textureId);
-    Long getLength(Long textureId);
-    Boolean addSlave(Long type, String uri, String path, Boolean select, Long textureId);
-    void setVideoTitleDisplay(Long position, Long timeout, Long textureId);
-    Boolean record(String directory, Long textureId);
-
-    /** The codec used by VLCPlayerApi. */
-    static MessageCodec<Object> getCodec() {
-      return VLCPlayerApiCodec.INSTANCE;
+        private VLCPlayerApiCodec() {
+        }
     }
 
-    /** Sets up an instance of `VLCPlayerApi` to handle messages through the `binaryMessenger`. */
-    static void setup(BinaryMessenger binaryMessenger, VLCPlayerApi api) {
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.create", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              List<String> optionsArg = (List<String>)args.get(0);
-              if (optionsArg == null) {
-                throw new NullPointerException("optionsArg unexpectedly null.");
-              }
-              Long output = api.create(optionsArg);
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
+    /**
+     * Generated interface from Pigeon that represents a handler of messages from Flutter.
+     */
+    public interface VLCPlayerApi {
+        Long create(List<String> options);
+
+        void createByIOS(List<String> options, Long viewId);
+
+        void dispose(Long id);
+
+        void release();
+
+        void setDefaultBufferSize(Long width, Long height, Long textureId);
+
+        void setDataSource(String uri, String path, Long textureId);
+
+        void setVideoScale(Long value, Long textureId);
+
+        Long getVideoScale(Long textureId);
+
+        void play(String uri, String path, Long textureId);
+
+        void stop(Long textureId);
+
+        Double getScale(Long textureId);
+
+        void setScale(Double scale, Long textureId);
+
+        String getAspectRatio(Long textureId);
+
+        void setAspectRatio(String aspect, Long textureId);
+
+        void setRate(Double rate, Long textureId);
+
+        Double getRate(Long textureId);
+
+        Boolean isPlaying(Long textureId);
+
+        Boolean isSeekable(Long textureId);
+
+        void pause(Long textureId);
+
+        Long getPlayerState(Long textureId);
+
+        Long getVolume(Long textureId);
+
+        Long setVolume(Long volume, Long textureId);
+
+        Long getTime(Long textureId);
+
+        Long setTime(Long time, Long textureId);
+
+        Double getPosition(Long textureId);
+
+        void setPosition(Double pos, Long textureId);
+
+        Long getLength(Long textureId);
+
+        Boolean addSlave(Long type, String uri, String path, Boolean select, Long textureId);
+
+        void setVideoTitleDisplay(Long position, Long timeout, Long textureId);
+
+        Boolean record(String directory, Long textureId);
+
+        /**
+         * The codec used by VLCPlayerApi.
+         */
+        static MessageCodec<Object> getCodec() {
+            return VLCPlayerApiCodec.INSTANCE;
         }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.createByIOS", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              List<String> optionsArg = (List<String>)args.get(0);
-              if (optionsArg == null) {
-                throw new NullPointerException("optionsArg unexpectedly null.");
-              }
-              Number viewIdArg = (Number)args.get(1);
-              if (viewIdArg == null) {
-                throw new NullPointerException("viewIdArg unexpectedly null.");
-              }
-              api.createByIOS(optionsArg, viewIdArg.longValue());
-              wrapped.put("result", null);
+
+        /**
+         * Sets up an instance of `VLCPlayerApi` to handle messages through the `binaryMessenger`.
+         */
+        static void setup(BinaryMessenger binaryMessenger, VLCPlayerApi api) {
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.create", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            List<String> optionsArg = (List<String>) args.get(0);
+                            if (optionsArg == null) {
+                                throw new NullPointerException("optionsArg unexpectedly null.");
+                            }
+                            Long output = api.create(optionsArg);
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
             }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.createByIOS", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            List<String> optionsArg = (List<String>) args.get(0);
+                            if (optionsArg == null) {
+                                throw new NullPointerException("optionsArg unexpectedly null.");
+                            }
+                            Number viewIdArg = (Number) args.get(1);
+                            if (viewIdArg == null) {
+                                throw new NullPointerException("viewIdArg unexpectedly null.");
+                            }
+                            api.createByIOS(optionsArg, viewIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
             }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.dispose", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number idArg = (Number) args.get(0);
+                            if (idArg == null) {
+                                throw new NullPointerException("idArg unexpectedly null.");
+                            }
+                            api.dispose(idArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.release", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            api.release();
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setDefaultBufferSize", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number widthArg = (Number) args.get(0);
+                            if (widthArg == null) {
+                                throw new NullPointerException("widthArg unexpectedly null.");
+                            }
+                            Number heightArg = (Number) args.get(1);
+                            if (heightArg == null) {
+                                throw new NullPointerException("heightArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(2);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setDefaultBufferSize(widthArg.longValue(), heightArg.longValue(), textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setDataSource", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            String uriArg = (String) args.get(0);
+                            if (uriArg == null) {
+                                throw new NullPointerException("uriArg unexpectedly null.");
+                            }
+                            String pathArg = (String) args.get(1);
+                            if (pathArg == null) {
+                                throw new NullPointerException("pathArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(2);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setDataSource(uriArg, pathArg, textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setVideoScale", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number valueArg = (Number) args.get(0);
+                            if (valueArg == null) {
+                                throw new NullPointerException("valueArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setVideoScale(valueArg.longValue(), textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getVideoScale", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Long output = api.getVideoScale(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.play", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            String uriArg = (String) args.get(0);
+                            if (uriArg == null) {
+                                throw new NullPointerException("uriArg unexpectedly null.");
+                            }
+                            String pathArg = (String) args.get(1);
+                            if (pathArg == null) {
+                                throw new NullPointerException("pathArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(2);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.play(uriArg, pathArg, textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.stop", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.stop(textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getScale", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Double output = api.getScale(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setScale", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Double scaleArg = (Double) args.get(0);
+                            if (scaleArg == null) {
+                                throw new NullPointerException("scaleArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setScale(scaleArg, textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getAspectRatio", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            String output = api.getAspectRatio(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setAspectRatio", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            String aspectArg = (String) args.get(0);
+                            if (aspectArg == null) {
+                                throw new NullPointerException("aspectArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setAspectRatio(aspectArg, textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setRate", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Double rateArg = (Double) args.get(0);
+                            if (rateArg == null) {
+                                throw new NullPointerException("rateArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setRate(rateArg, textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getRate", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Double output = api.getRate(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.isPlaying", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Boolean output = api.isPlaying(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.isSeekable", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Boolean output = api.isSeekable(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.pause", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.pause(textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getPlayerState", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Long output = api.getPlayerState(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getVolume", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Long output = api.getVolume(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setVolume", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number volumeArg = (Number) args.get(0);
+                            if (volumeArg == null) {
+                                throw new NullPointerException("volumeArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Long output = api.setVolume(volumeArg.longValue(), textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getTime", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Long output = api.getTime(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setTime", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number timeArg = (Number) args.get(0);
+                            if (timeArg == null) {
+                                throw new NullPointerException("timeArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Long output = api.setTime(timeArg.longValue(), textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getPosition", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Double output = api.getPosition(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setPosition", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Double posArg = (Double) args.get(0);
+                            if (posArg == null) {
+                                throw new NullPointerException("posArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setPosition(posArg, textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getLength", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number textureIdArg = (Number) args.get(0);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Long output = api.getLength(textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.addSlave", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number typeArg = (Number) args.get(0);
+                            if (typeArg == null) {
+                                throw new NullPointerException("typeArg unexpectedly null.");
+                            }
+                            String uriArg = (String) args.get(1);
+                            if (uriArg == null) {
+                                throw new NullPointerException("uriArg unexpectedly null.");
+                            }
+                            String pathArg = (String) args.get(2);
+                            if (pathArg == null) {
+                                throw new NullPointerException("pathArg unexpectedly null.");
+                            }
+                            Boolean selectArg = (Boolean) args.get(3);
+                            if (selectArg == null) {
+                                throw new NullPointerException("selectArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(4);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Boolean output = api.addSlave(typeArg.longValue(), uriArg, pathArg, selectArg, textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setVideoTitleDisplay", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            Number positionArg = (Number) args.get(0);
+                            if (positionArg == null) {
+                                throw new NullPointerException("positionArg unexpectedly null.");
+                            }
+                            Number timeoutArg = (Number) args.get(1);
+                            if (timeoutArg == null) {
+                                throw new NullPointerException("timeoutArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(2);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            api.setVideoTitleDisplay(positionArg.longValue(), timeoutArg.longValue(), textureIdArg.longValue());
+                            wrapped.put("result", null);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
+            {
+                BasicMessageChannel<Object> channel =
+                        new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.record", getCodec());
+                if (api != null) {
+                    channel.setMessageHandler((message, reply) -> {
+                        Map<String, Object> wrapped = new HashMap<>();
+                        try {
+                            ArrayList<Object> args = (ArrayList<Object>) message;
+                            String directoryArg = (String) args.get(0);
+                            if (directoryArg == null) {
+                                throw new NullPointerException("directoryArg unexpectedly null.");
+                            }
+                            Number textureIdArg = (Number) args.get(1);
+                            if (textureIdArg == null) {
+                                throw new NullPointerException("textureIdArg unexpectedly null.");
+                            }
+                            Boolean output = api.record(directoryArg, textureIdArg.longValue());
+                            wrapped.put("result", output);
+                        } catch (Error | RuntimeException exception) {
+                            wrapped.put("error", wrapError(exception));
+                        }
+                        reply.reply(wrapped);
+                    });
+                } else {
+                    channel.setMessageHandler(null);
+                }
+            }
         }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.dispose", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number idArg = (Number)args.get(0);
-              if (idArg == null) {
-                throw new NullPointerException("idArg unexpectedly null.");
-              }
-              api.dispose(idArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.release", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              api.release();
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setDefaultBufferSize", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number widthArg = (Number)args.get(0);
-              if (widthArg == null) {
-                throw new NullPointerException("widthArg unexpectedly null.");
-              }
-              Number heightArg = (Number)args.get(1);
-              if (heightArg == null) {
-                throw new NullPointerException("heightArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(2);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setDefaultBufferSize(widthArg.longValue(), heightArg.longValue(), textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setDataSource", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              String uriArg = (String)args.get(0);
-              if (uriArg == null) {
-                throw new NullPointerException("uriArg unexpectedly null.");
-              }
-              String pathArg = (String)args.get(1);
-              if (pathArg == null) {
-                throw new NullPointerException("pathArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(2);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setDataSource(uriArg, pathArg, textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setVideoScale", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number valueArg = (Number)args.get(0);
-              if (valueArg == null) {
-                throw new NullPointerException("valueArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setVideoScale(valueArg.longValue(), textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getVideoScale", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Long output = api.getVideoScale(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.play", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              String uriArg = (String)args.get(0);
-              if (uriArg == null) {
-                throw new NullPointerException("uriArg unexpectedly null.");
-              }
-              String pathArg = (String)args.get(1);
-              if (pathArg == null) {
-                throw new NullPointerException("pathArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(2);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.play(uriArg, pathArg, textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.stop", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.stop(textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getScale", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Double output = api.getScale(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setScale", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Double scaleArg = (Double)args.get(0);
-              if (scaleArg == null) {
-                throw new NullPointerException("scaleArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setScale(scaleArg, textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getAspectRatio", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              String output = api.getAspectRatio(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setAspectRatio", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              String aspectArg = (String)args.get(0);
-              if (aspectArg == null) {
-                throw new NullPointerException("aspectArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setAspectRatio(aspectArg, textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setRate", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Double rateArg = (Double)args.get(0);
-              if (rateArg == null) {
-                throw new NullPointerException("rateArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setRate(rateArg, textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getRate", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Double output = api.getRate(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.isPlaying", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Boolean output = api.isPlaying(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.isSeekable", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Boolean output = api.isSeekable(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.pause", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.pause(textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getPlayerState", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Long output = api.getPlayerState(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getVolume", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Long output = api.getVolume(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setVolume", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number volumeArg = (Number)args.get(0);
-              if (volumeArg == null) {
-                throw new NullPointerException("volumeArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Long output = api.setVolume(volumeArg.longValue(), textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getTime", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Long output = api.getTime(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setTime", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number timeArg = (Number)args.get(0);
-              if (timeArg == null) {
-                throw new NullPointerException("timeArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Long output = api.setTime(timeArg.longValue(), textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getPosition", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Double output = api.getPosition(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setPosition", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Double posArg = (Double)args.get(0);
-              if (posArg == null) {
-                throw new NullPointerException("posArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setPosition(posArg, textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.getLength", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number textureIdArg = (Number)args.get(0);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Long output = api.getLength(textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.addSlave", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number typeArg = (Number)args.get(0);
-              if (typeArg == null) {
-                throw new NullPointerException("typeArg unexpectedly null.");
-              }
-              String uriArg = (String)args.get(1);
-              if (uriArg == null) {
-                throw new NullPointerException("uriArg unexpectedly null.");
-              }
-              String pathArg = (String)args.get(2);
-              if (pathArg == null) {
-                throw new NullPointerException("pathArg unexpectedly null.");
-              }
-              Boolean selectArg = (Boolean)args.get(3);
-              if (selectArg == null) {
-                throw new NullPointerException("selectArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(4);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Boolean output = api.addSlave(typeArg.longValue(), uriArg, pathArg, selectArg, textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.setVideoTitleDisplay", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              Number positionArg = (Number)args.get(0);
-              if (positionArg == null) {
-                throw new NullPointerException("positionArg unexpectedly null.");
-              }
-              Number timeoutArg = (Number)args.get(1);
-              if (timeoutArg == null) {
-                throw new NullPointerException("timeoutArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(2);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              api.setVideoTitleDisplay(positionArg.longValue(), timeoutArg.longValue(), textureIdArg.longValue());
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.VLCPlayerApi.record", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              String directoryArg = (String)args.get(0);
-              if (directoryArg == null) {
-                throw new NullPointerException("directoryArg unexpectedly null.");
-              }
-              Number textureIdArg = (Number)args.get(1);
-              if (textureIdArg == null) {
-                throw new NullPointerException("textureIdArg unexpectedly null.");
-              }
-              Boolean output = api.record(directoryArg, textureIdArg.longValue());
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
     }
-  }
-  private static Map<String, Object> wrapError(Throwable exception) {
-    Map<String, Object> errorMap = new HashMap<>();
-    errorMap.put("message", exception.toString());
-    errorMap.put("code", exception.getClass().getSimpleName());
-    errorMap.put("details", null);
-    return errorMap;
-  }
+
+    private static Map<String, Object> wrapError(Throwable exception) {
+        Map<String, Object> errorMap = new HashMap<>();
+        errorMap.put("message", exception.toString());
+        errorMap.put("code", exception.getClass().getSimpleName());
+        errorMap.put("details", null);
+        return errorMap;
+    }
 }

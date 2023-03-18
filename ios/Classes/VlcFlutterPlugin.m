@@ -94,7 +94,7 @@ static NSMutableDictionary *dict = nil;
 }
 
 - (nullable NSNumber *)getVideoScaleTextureId:(NSNumber *)textureId error:(FlutterError *_Nullable *_Nonnull)error{
-
+    
     return nil;
 }
 
@@ -267,7 +267,7 @@ static NSMutableDictionary *dict = nil;
 }
 
 - (void)setVideoTitleDisplayPosition:(NSNumber *)position timeout:(NSNumber *)timeout textureId:(NSNumber *)textureId error:(FlutterError *_Nullable *_Nonnull)error{
-
+    
 }
 
 - (nullable NSNumber *)recordDirectory:(NSString *)directory textureId:(NSNumber *)textureId error:(FlutterError *_Nullable *_Nonnull)error{
