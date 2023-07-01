@@ -1,6 +1,6 @@
 //
 //  FLVLCPlayer.m
-//  vlc_flutter
+//  vlc_flutter_compat
 //
 
 #import "FLVLCPlayer.h"
@@ -37,7 +37,7 @@ static int play_state_i[] = {
         _width = width;
         _height = height;
         
-        NSString *channelName = [NSString stringWithFormat:@"xyz.bczl.vlc_flutter/VLCPlayer/id_%@",viewId];
+        NSString *channelName = [NSString stringWithFormat:@"xyz.bczl.vlc_flutter_compat/VLCPlayer/id_%@",viewId];
         
         _eventSink = [[QueuingEventSink alloc]init];
         _eventChannel = [FlutterEventChannel eventChannelWithName:channelName binaryMessenger:messenger];

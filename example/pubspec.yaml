@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  vlc_flutter:
+  vlc_flutter_compat:
     # When depending on this package from a real application you should use:
     #   vlc_flutter: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints

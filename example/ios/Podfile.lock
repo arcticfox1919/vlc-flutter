@@ -1,13 +1,13 @@
 PODS:
   - Flutter (1.0.0)
   - MobileVLCKit (3.5.1)
-  - vlc_flutter (0.0.1):
+  - vlc_flutter_compat (0.0.1):
     - Flutter
     - MobileVLCKit
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - vlc_flutter (from `.symlinks/plugins/vlc_flutter/ios`)
+  - vlc_flutter_compat (from `.symlinks/plugins/vlc_flutter_compat/ios`)
 
 SPEC REPOS:
   trunk:
@@ -16,14 +16,14 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  vlc_flutter:
-    :path: ".symlinks/plugins/vlc_flutter/ios"
+  vlc_flutter_compat:
+    :path: ".symlinks/plugins/vlc_flutter_compat/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   MobileVLCKit: 144d5f565512d1147d63b0fa1379231b3fd66535
-  vlc_flutter: cb1f88e1c8f7a1f3d8c059611cf34c142270a4a9
+  vlc_flutter_compat: 88f543388a9732587178b759a956896a54346a0c
 
 PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1

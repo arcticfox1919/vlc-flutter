@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vlc_flutter/vlcplayer.dart';
+import 'package:vlc_flutter_compat/vlcplayer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,8 +39,7 @@ class _MyAppState extends State<MyApp> {
 
   load() async {
     // rtmp://58.200.131.2:1935/livetv/natlgeo
-    await _controller.setDataSource(
-        uri: "https://v-cdn.zjol.com.cn/276996.mp4");
+    await _controller.setDataSource(uri: "rtsp://192.168.1.38:1935");
   }
 
   @override

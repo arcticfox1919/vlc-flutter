@@ -1,6 +1,6 @@
 //
 //  VLCPlayerView.h
-//  vlc_flutter
+//  vlc_flutter_compat
 //
 
 #import <Foundation/Foundation.h>

@@ -1,6 +1,6 @@
 //
 //  QueuingEventSink.m
-//  vlc_flutter
+//  vlc_flutter_compat
 //
 
 #import "QueuingEventSink.h"

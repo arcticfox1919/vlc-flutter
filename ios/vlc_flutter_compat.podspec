@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint vlc_flutter.podspec' to validate before publishing.
+# Run `pod lib lint vlc_flutter_compat.podspec' to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'vlc_flutter'
+  s.name             = 'vlc_flutter_compat'
   s.version          = '0.0.1'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
