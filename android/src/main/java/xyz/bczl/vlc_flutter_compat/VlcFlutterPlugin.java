@@ -1,4 +1,4 @@
-package xyz.bczl.vlc_flutter;
+package xyz.bczl.vlc_flutter_compat;
 
 import android.content.Context;
 import android.net.Uri;
@@ -54,7 +54,7 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerAPI.VLCPlayerAp
         long textureId = textureEntry.id();
 
         EventChannel eventChannel = new EventChannel(
-                mFlutterState.binaryMessenger, "xyz.bczl.vlc_flutter/VLCPlayer/id_" + textureId);
+                mFlutterState.binaryMessenger, "xyz.bczl.vlc_flutter_compat/VLCPlayer/id_" + textureId);
 
         VLCPlayer player = new VLCPlayer(mFlutterState.applicationContext, eventChannel, textureEntry, options);
         mPlayers.put(textureId, player);
@@ -188,8 +188,8 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerAPI.VLCPlayerAp
 
     @Override
     public Long setVolume(Long volume, Long textureId) {
-        Integer r = player(textureId).setVolume(volume.intValue());
-        return r.longValue();
+        int r = player(textureId).setVolume(volume.intValue());
+        return Long.parseLong(String.valueOf(r));
     }
 
     @Override
@@ -204,8 +204,8 @@ public class VlcFlutterPlugin implements FlutterPlugin, VLCPlayerAPI.VLCPlayerAp
 
     @Override
     public Double getPosition(Long textureId) {
-        Float position = player(textureId).getPosition();
-        return position.doubleValue();
+        float position = player(textureId).getPosition();
+        return (double) position;
     }
 
     @Override

@@ -13,7 +13,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final VLCController _controller = VLCController(args: ["-vvv"]);
+  final VLCController _controller = VLCController(args: [
+    "-vvv",
+    '--network-caching=300',
+    '--live-caching=300',
+    '--clock-jitter=10',
+    '--clock-synchro=10',
+  ]);
 
   @override
   void initState() {
