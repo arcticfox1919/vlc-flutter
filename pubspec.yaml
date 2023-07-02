@@ -22,7 +22,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: xyz.bczl.vlc_flutter
+        package: xyz.bczl.vlc_flutter_compat
         pluginClass: VlcFlutterPlugin
       ios:
         pluginClass: VlcFlutterPlugin

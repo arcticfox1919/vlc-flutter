@@ -1,15 +1,13 @@
-package xyz.bczl.vlc_flutter;
+package xyz.bczl.vlc_flutter_compat;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.net.Uri;
-import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +102,7 @@ public class VLCPlayer implements MediaPlayer.EventListener {
 
     @Override
     public void onEvent(MediaPlayer.Event event) {
-        Map<String, Object> param = new HashMap();
+        Map<String, Object> param = new HashMap<>();
         param.put("type", event.type);
         param.put("Buffering", event.getBuffering());
         param.put("Time", event.getTimeChanged());
