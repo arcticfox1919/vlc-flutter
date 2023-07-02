@@ -1,6 +1,6 @@
 name: vlc_flutter_compat
 description: This is a Flutter wrapper plugin for libvlc.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/arcticfox1919/vlc-flutter
 
 environment:
