@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.1.2'
     }
 }
 
@@ -22,20 +22,20 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
-
+    compileSdk 34
+    namespace 'xyz.bczl.vlc_flutter_compat'
     defaultConfig {
-        minSdkVersion 21
+        minSdk 21
     }
     lintOptions {
         disable 'InvalidPackage'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
-    implementation 'org.videolan.android:libvlc-all:4.0.0-eap11'
+    implementation 'org.videolan.android:libvlc-all:4.0.0-eap12'
 }

@@ -13,12 +13,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   final VLCController _controller = VLCController(args: [
+    // More options can find: https://wiki.videolan.org/VLC_command-line_help/
     "-vvv",
-    '--network-caching=300',
-    '--live-caching=300',
-    '--clock-jitter=10',
-    '--clock-synchro=10',
+    // '--network-caching=300',
+    // '--live-caching=300',
+    // '--clock-jitter=10',
+    // '--clock-synchro=10',
   ]);
 
   @override
@@ -45,7 +47,7 @@ class _MyAppState extends State<MyApp> {
 
   load() async {
     // rtmp://58.200.131.2:1935/livetv/natlgeo
-    await _controller.setDataSource(uri: "rtsp://192.168.1.38:1935");
+    await _controller.setDataSource(uri: "https://v-cdn.zjol.com.cn/276996.mp4");
   }
 
   @override
