@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vlc_flutter/vlcplayer.dart';
+import 'package:vlc_flutter_compat/vlcplayer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final VLCController _controller = VLCController(args: ["-vvv"]);
+  final VLCController _controller = VLCController(args: [
+    "-vvv",
+    '--network-caching=300',
+    '--live-caching=300',
+    '--clock-jitter=10',
+    '--clock-synchro=10',
+  ]);
 
   @override
   void initState() {
@@ -39,8 +45,7 @@ class _MyAppState extends State<MyApp> {
 
   load() async {
     // rtmp://58.200.131.2:1935/livetv/natlgeo
-    await _controller.setDataSource(
-        uri: "https://v-cdn.zjol.com.cn/276996.mp4");
+    await _controller.setDataSource(uri: "rtsp://192.168.1.38:1935");
   }
 
   @override

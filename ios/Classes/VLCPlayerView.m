@@ -1,6 +1,6 @@
 //
 //  VLCPlayerView.m
-//  vlc_flutter
+//  vlc_flutter_compat
 //
 
 #import "VLCPlayerView.h"

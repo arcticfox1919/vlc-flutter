@@ -1,6 +1,6 @@
 part of vlcplayer;
 
-const _eventChannelPrefix = 'xyz.bczl.vlc_flutter/VLCPlayer/id_';
+const _eventChannelPrefix = 'xyz.bczl.vlc_flutter_compat/VLCPlayer/id_';
 
 enum VLCState {
   NothingSpecial,

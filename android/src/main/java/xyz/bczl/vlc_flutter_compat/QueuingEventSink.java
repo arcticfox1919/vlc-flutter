@@ -1,4 +1,4 @@
-package xyz.bczl.vlc_flutter;
+package xyz.bczl.vlc_flutter_compat;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,7 +17,7 @@ import io.flutter.plugin.common.EventChannel;
 final class QueuingEventSink implements EventChannel.EventSink {
 
     private EventChannel.EventSink eventSink;
-    private Queue<Object> eventQueue = new LinkedList();
+    private final Queue<Object> eventQueue = new LinkedList<>();
     private boolean isEnd = false;
 
     public void setEventSinkProxy(EventChannel.EventSink es) {

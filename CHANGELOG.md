@@ -1,8 +1,7 @@
 ## 0.0.2
-
-* Add iOS support
-
-
+    - Android:
+        + Changed package name
+        + Updated build gradle
+        + Updated libvlc: 4.0.0-eap11
 ## 0.0.1
-
-* TODO: Describe initial release.
+ - All: Maintenance for lib: https://pub.dev/packages/vlc_flutter

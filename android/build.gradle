@@ -1,4 +1,4 @@
-group 'xyz.bczl.vlc_flutter'
+group 'xyz.bczl.vlc_flutter_compat'
 version '1.0'
 
 buildscript {
@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.1'
+        classpath 'com.android.tools.build:gradle:7.4.2'
     }
 }
 
@@ -25,7 +25,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -37,5 +37,5 @@ android {
 }
 
 dependencies {
-    implementation 'org.videolan.android:libvlc-all:3.6.0-eap5'
+    implementation 'org.videolan.android:libvlc-all:3.6.0-eap10'
 }
